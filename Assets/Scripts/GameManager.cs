@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public string battleSceneName;
+    
 
     private void OnTriggerEnter(Collider other)
     {
@@ -13,5 +14,9 @@ public class GameManager : MonoBehaviour
         {
             SceneManager.LoadScene(battleSceneName);
         }
+    }
+    public void Scenechange()
+    {
+        SceneManager.LoadScene("Nivel");
     }
 }

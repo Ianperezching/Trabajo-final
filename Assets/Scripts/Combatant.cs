@@ -17,7 +17,7 @@ public class Combatant : MonoBehaviour
         stats.currentHealth -= damageTaken;
         if (stats.currentHealth <= 0)
         {
-            // Handle character death
+           
             Debug.Log(stats.characterName + " has been defeated!");
         }
     }
