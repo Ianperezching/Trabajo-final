@@ -6,18 +6,30 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour
 {
     public float moveSpeed = 5f;
+    public float smoothTime = 0.5f; 
     private Vector2 moveInput;
+    
     private Rigidbody rb;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
     }
+
     private void FixedUpdate()
     {
-        Vector3 movement = new Vector3(moveInput.x, 0, moveInput.y) * moveSpeed * Time.fixedDeltaTime;
-        rb.MovePosition(rb.position + movement);
+        Vector3 targetPosition = rb.position + new Vector3(moveInput.x, 0, moveInput.y) * moveSpeed * Time.fixedDeltaTime;
+
+        
+        Vector3 smoothedPosition = Vector3.Lerp(rb.position, targetPosition, smoothTime);
+
+        
+        smoothedPosition.x = Mathf.Clamp(smoothedPosition.x, -10f, 10f); 
+        smoothedPosition.z = Mathf.Clamp(smoothedPosition.z, -10f, 10f);
+
+        rb.MovePosition(smoothedPosition);
     }
+
     public void OnMove(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
