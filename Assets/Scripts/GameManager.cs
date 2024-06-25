@@ -15,8 +15,4 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene(battleSceneName);
         }
     }
-    public void Scenechange()
-    {
-        SceneManager.LoadScene("Nivel");
-    }
 }
