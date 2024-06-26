@@ -12,6 +12,7 @@ public class UIManager : MonoBehaviour
     public Vector2[] targetPositions;
     public Vector2[] targetScales;
     public GameObject SetingsMenu;
+    public GameObject CreditsMenu;
 
     void Start()
     {
@@ -29,6 +30,20 @@ public class UIManager : MonoBehaviour
     {
         SetingsMenu.SetActive(true);
     }
+    public void Credits()
+    {
+        CreditsMenu.SetActive(false);
+    }
+    public void ShowCredits()
+    {
+        CreditsMenu.SetActive(true);
+    }
+
+    public void Exit()
+    {
+        Application.Quit();
+    }
+
     public void Scenechange()
     {
         SceneManager.LoadScene("Nivel");
