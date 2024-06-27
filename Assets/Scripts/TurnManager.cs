@@ -4,52 +4,74 @@ using UnityEngine;
 
 public class TurnManager : MonoBehaviour
 {
-    public List<Combatant> playerCombatants = new List<Combatant>();
-    public List<EnemyCombatant> enemyCombatants = new List<EnemyCombatant>();
-
-    private int currentTurnIndex = 0;
+    public Combatant[] playerCombatants;
+    public EnemyCombatant[] enemyCombatants;
+    private MyPriorityQueue<Combatant> priorityQueue = new MyPriorityQueue<Combatant>();
 
     private void Start()
     {
-        var allCombatants = new List<object>();
-        allCombatants.AddRange(playerCombatants);
-        allCombatants.AddRange(enemyCombatants);
-        //allCombatants = allCombatants.OrderByDescending(c => GetSpeed(c)).ToList();
-
-        StartTurn(allCombatants);
-    }
-
-    private int GetSpeed(object combatant)
-    {
-        if (combatant is Combatant)
-            return ((Combatant)combatant).stats.speed;
-        else if (combatant is EnemyCombatant)
-            return ((EnemyCombatant)combatant).stats.speed;
-        return 0;
-    }
-
-    private void StartTurn(List<object> allCombatants)
-    {
-        if (allCombatants.Count > 0)
+        for (int i = 0; i < playerCombatants.Length; i++)
         {
-            var currentCombatant = allCombatants[currentTurnIndex];
-            if (currentCombatant is Combatant)
-            {
-                Combatant player = (Combatant)currentCombatant;
-                Debug.Log("It's " + player.stats.characterName + "'s turn!");
-            }
-            else if (currentCombatant is EnemyCombatant)
-            {
-                EnemyCombatant enemy = (EnemyCombatant)currentCombatant;
-                Debug.Log("It's " + enemy.stats.enemyName + "'s turn!");
-            }
+            priorityQueue.PriorityEnqueue(playerCombatants[i], playerCombatants[i].GetSpeed());
+        }
+        for (int i = 0; i < enemyCombatants.Length; i++)
+        {
+           // priorityQueue.PriorityEnqueue(enemyCombatants[i], enemyCombatants[i].GetSpeed());
+        }
+
+        StartTurn();
+    }
+
+    private void StartTurn()
+    {
+        if (!priorityQueue.IsEmpty())
+        {
+            Combatant currentCombatant = priorityQueue.PriorityDequeue();
+            Debug.Log("It's " + currentCombatant.GetName() + "'s turn!");
+            currentCombatant.StartTurn(this);
         }
     }
 
-    public void EndTurn(List<object> allCombatants)
+    public void ShowPlayerOptions(Combatant player)
     {
-        currentTurnIndex = (currentTurnIndex + 1) % allCombatants.Count;
-        StartTurn(allCombatants);
+        // Aquí se mostraría la UI con botones para las opciones de ataque
+        Debug.Log("1: Normal Attack  2: Special Attack");
+
+        // Ejemplo de opciones manuales (en lugar de UI real)
+        int choice = Random.Range(1, 3);
+        if (choice == 1)
+        {
+           // player.Attack(enemyCombatants[0]);
+        }
+        else if (choice == 2)
+        {
+            Combatant[] enemies = new Combatant[enemyCombatants.Length];
+            for (int i = 0; i < enemyCombatants.Length; i++)
+            {
+                //enemies[i] = enemyCombatants[i];
+            }
+            player.SpecialAttack(enemies);
+        }
+
+        EndTurn(player);
     }
 
+    public void ExecuteEnemyTurn(EnemyCombatant enemy)
+    {
+        Combatant target = playerCombatants[Random.Range(0, playerCombatants.Length)];
+        enemy.Attack(target);
+        EndTurn(enemy);
+    }
+
+    private void EndTurn(Combatant combatant)
+    {
+        priorityQueue.PriorityEnqueue(combatant, combatant.GetSpeed());
+        StartTurn();
+    }
+
+    private void EndTurn(EnemyCombatant enemy)
+    {
+       // priorityQueue.PriorityEnqueue(enemy, enemy.GetSpeed());
+        StartTurn();
+    }
 }
