@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -23,9 +24,6 @@ public class Player : MonoBehaviour
         
         Vector3 smoothedPosition = Vector3.Lerp(rb.position, targetPosition, smoothTime);
 
-        
-        smoothedPosition.x = Mathf.Clamp(smoothedPosition.x, -10f, 10f); 
-        smoothedPosition.z = Mathf.Clamp(smoothedPosition.z, -10f, 10f);
 
         rb.MovePosition(smoothedPosition);
     }
@@ -33,5 +31,12 @@ public class Player : MonoBehaviour
     public void OnMove(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Enemy"))
+        {
+            SceneManager.LoadScene("Batalla");
+        }
     }
 }
