@@ -1,3 +1,7 @@
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
 public class MyPriorityQueue<T>
 {
     private class Node
@@ -85,5 +89,10 @@ public class MyPriorityQueue<T>
     public bool IsEmpty()
     {
         return length == 0;
+    }
+
+    public int GetLength()
+    {
+        return length;
     }
 }

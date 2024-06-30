@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TurnManager : MonoBehaviour
 {
     public Combatant[] playerCombatants;
     public EnemyCombatant[] enemyCombatants;
-    public CombatantUI[] combatantUIs; 
+    public CombatantUI[] combatantUIs;
     public MyPriorityQueue<BaseCombatant> priorityQueue = new MyPriorityQueue<BaseCombatant>();
 
     private void Start()
@@ -14,12 +15,14 @@ public class TurnManager : MonoBehaviour
         for (int i = 0; i < playerCombatants.Length; i++)
         {
             Combatant playerCombatant = playerCombatants[i];
+            playerCombatant.SetTurnManager(this);
             priorityQueue.PriorityEnqueue(playerCombatant, playerCombatant.GetSpeed());
             combatantUIs[i].Initialize(this, playerCombatant);
         }
         for (int i = 0; i < enemyCombatants.Length; i++)
         {
             EnemyCombatant enemyCombatant = enemyCombatants[i];
+            enemyCombatant.SetTurnManager(this);
             priorityQueue.PriorityEnqueue(enemyCombatant, enemyCombatant.GetSpeed());
         }
 
@@ -39,10 +42,16 @@ public class TurnManager : MonoBehaviour
     public void ShowPlayerOptions(Combatant player)
     {
         HideAllUI();
-        int index = System.Array.IndexOf(playerCombatants, player);
-        if (index >= 0 && index < combatantUIs.Length)
+        for (int i = 0; i < playerCombatants.Length; i++)
         {
-            combatantUIs[index].Show();
+            if (playerCombatants[i] == player)
+            {
+                if (i < combatantUIs.Length)
+                {
+                    combatantUIs[i].Show();
+                }
+                break;
+            }
         }
     }
 
@@ -56,8 +65,44 @@ public class TurnManager : MonoBehaviour
 
     public void EndTurn(BaseCombatant combatant)
     {
-        priorityQueue.PriorityEnqueue(combatant, combatant.GetSpeed() -2);
-        StartTurn();
+        if (CheckVictory())
+        {
+            SceneManager.LoadScene("Nivel");
+        }
+        else if (CheckDefeat())
+        {
+            SceneManager.LoadScene("Derrota");
+        }
+        else
+        {
+            combatant.AddDelay(1000); // Añadir un retraso fijo de 1000 unidades de tiempo
+            priorityQueue.PriorityEnqueue(combatant, combatant.GetSpeedWithDelay());
+            StartTurn();
+        }
+    }
+
+    private bool CheckVictory()
+    {
+        for (int i = 0; i < enemyCombatants.Length; i++)
+        {
+            if (enemyCombatants[i].stats.currentHealth > 0)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private bool CheckDefeat()
+    {
+        for (int i = 0; i < playerCombatants.Length; i++)
+        {
+            if (playerCombatants[i].stats.currentHealth > 0)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     private void HideAllUI()

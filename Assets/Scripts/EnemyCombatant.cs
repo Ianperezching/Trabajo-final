@@ -3,10 +3,16 @@ using UnityEngine;
 public class EnemyCombatant : BaseCombatant
 {
     public EnemyStats stats;
+    private TurnManager turnManager;
 
     private void Start()
     {
         stats.currentHealth = stats.health;
+    }
+
+    public void SetTurnManager(TurnManager manager)
+    {
+        turnManager = manager;
     }
 
     public void TakeDamage(int damage)
@@ -16,7 +22,6 @@ public class EnemyCombatant : BaseCombatant
         if (stats.currentHealth <= 0)
         {
             Debug.Log(stats.enemyName + " has been defeated!");
-            
         }
     }
 
