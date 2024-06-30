@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Combatant : MonoBehaviour
+public class Combatant : BaseCombatant
 {
     public CharacterStats stats;
 
@@ -16,45 +16,67 @@ public class Combatant : MonoBehaviour
         if (stats.currentHealth <= 0)
         {
             Debug.Log(stats.characterName + " has been defeated!");
+          
         }
     }
 
-    public void Attack(Combatant target)
+    public void Attack(BaseCombatant target)
     {
-        target.TakeDamage(stats.attack);
+        if (target is Combatant)
+        {
+            Combatant combatant = (Combatant)target;
+            combatant.TakeDamage(stats.attack);
+        }
+        else if (target is EnemyCombatant)
+        {
+            EnemyCombatant enemy = (EnemyCombatant)target;
+            enemy.TakeDamage(stats.attack);
+        }
     }
 
-    public void SpecialAttack(Combatant[] enemies)
+    public void SpecialAttack(BaseCombatant[] enemies)
     {
         for (int i = 0; i < enemies.Length; i++)
         {
-            enemies[i].TakeDamage(stats.attack);
+            if (enemies[i] is EnemyCombatant)
+            {
+                EnemyCombatant enemyCombatant = (EnemyCombatant)enemies[i];
+                enemyCombatant.TakeDamage(stats.attack);
+            }
         }
     }
 
-    public void Heal(Combatant target)
+    public void Heal(BaseCombatant target)
     {
-        target.stats.currentHealth = Mathf.Min(target.stats.health, target.stats.currentHealth + stats.attack);
-        Debug.Log(stats.characterName + " healed " + target.stats.characterName);
+        if (target is Combatant)
+        {
+            Combatant combatant = (Combatant)target;
+            combatant.stats.currentHealth = Mathf.Min(combatant.stats.health, combatant.stats.currentHealth + stats.attack);
+            Debug.Log(stats.characterName + " healed " + combatant.stats.characterName);
+        }
     }
 
-    public void SpeedBoost(Combatant target)
+    public void SpeedBoost(BaseCombatant target)
     {
-        target.stats.speed += stats.attack;
-        Debug.Log(stats.characterName + " boosted speed of " + target.stats.characterName);
+        if (target is Combatant)
+        {
+            Combatant combatant = (Combatant)target;
+            combatant.stats.speed += stats.attack;
+            Debug.Log(stats.characterName + " boosted speed of " + combatant.stats.characterName);
+        }
     }
 
-    public int GetSpeed()
+    public override int GetSpeed()
     {
         return stats.speed;
     }
 
-    public string GetName()
+    public override string GetName()
     {
         return stats.characterName;
     }
 
-    public void StartTurn(TurnManager turnManager)
+    public override void StartTurn(TurnManager turnManager)
     {
         turnManager.ShowPlayerOptions(this);
     }

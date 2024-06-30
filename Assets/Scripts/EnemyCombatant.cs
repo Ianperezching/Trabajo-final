@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyCombatant : MonoBehaviour
+public class EnemyCombatant : BaseCombatant
 {
     public EnemyStats stats;
 
@@ -18,25 +16,30 @@ public class EnemyCombatant : MonoBehaviour
         if (stats.currentHealth <= 0)
         {
             Debug.Log(stats.enemyName + " has been defeated!");
+            
         }
     }
 
-    public void Attack(Combatant target)
+    public void Attack(BaseCombatant target)
     {
-        target.TakeDamage(stats.attack);
+        if (target is Combatant)
+        {
+            Combatant combatant = (Combatant)target;
+            combatant.TakeDamage(stats.attack);
+        }
     }
 
-    public int GetSpeed()
+    public override int GetSpeed()
     {
         return stats.speed;
     }
 
-    public string GetName()
+    public override string GetName()
     {
         return stats.enemyName;
     }
 
-    public void StartTurn(TurnManager turnManager)
+    public override void StartTurn(TurnManager turnManager)
     {
         turnManager.ExecuteEnemyTurn(this);
     }

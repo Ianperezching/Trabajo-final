@@ -6,17 +6,21 @@ public class TurnManager : MonoBehaviour
 {
     public Combatant[] playerCombatants;
     public EnemyCombatant[] enemyCombatants;
-    private MyPriorityQueue<Combatant> priorityQueue = new MyPriorityQueue<Combatant>();
+    public CombatantUI[] combatantUIs; 
+    public MyPriorityQueue<BaseCombatant> priorityQueue = new MyPriorityQueue<BaseCombatant>();
 
     private void Start()
     {
         for (int i = 0; i < playerCombatants.Length; i++)
         {
-            priorityQueue.PriorityEnqueue(playerCombatants[i], playerCombatants[i].GetSpeed());
+            Combatant playerCombatant = playerCombatants[i];
+            priorityQueue.PriorityEnqueue(playerCombatant, playerCombatant.GetSpeed());
+            combatantUIs[i].Initialize(this, playerCombatant);
         }
         for (int i = 0; i < enemyCombatants.Length; i++)
         {
-           // priorityQueue.PriorityEnqueue(enemyCombatants[i], enemyCombatants[i].GetSpeed());
+            EnemyCombatant enemyCombatant = enemyCombatants[i];
+            priorityQueue.PriorityEnqueue(enemyCombatant, enemyCombatant.GetSpeed());
         }
 
         StartTurn();
@@ -26,7 +30,7 @@ public class TurnManager : MonoBehaviour
     {
         if (!priorityQueue.IsEmpty())
         {
-            Combatant currentCombatant = priorityQueue.PriorityDequeue();
+            BaseCombatant currentCombatant = priorityQueue.PriorityDequeue();
             Debug.Log("It's " + currentCombatant.GetName() + "'s turn!");
             currentCombatant.StartTurn(this);
         }
@@ -34,44 +38,33 @@ public class TurnManager : MonoBehaviour
 
     public void ShowPlayerOptions(Combatant player)
     {
-        // Aquí se mostraría la UI con botones para las opciones de ataque
-        Debug.Log("1: Normal Attack  2: Special Attack");
-
-        // Ejemplo de opciones manuales (en lugar de UI real)
-        int choice = Random.Range(1, 3);
-        if (choice == 1)
+        HideAllUI();
+        int index = System.Array.IndexOf(playerCombatants, player);
+        if (index >= 0 && index < combatantUIs.Length)
         {
-           // player.Attack(enemyCombatants[0]);
+            combatantUIs[index].Show();
         }
-        else if (choice == 2)
-        {
-            Combatant[] enemies = new Combatant[enemyCombatants.Length];
-            for (int i = 0; i < enemyCombatants.Length; i++)
-            {
-                //enemies[i] = enemyCombatants[i];
-            }
-            player.SpecialAttack(enemies);
-        }
-
-        EndTurn(player);
     }
 
     public void ExecuteEnemyTurn(EnemyCombatant enemy)
     {
-        Combatant target = playerCombatants[Random.Range(0, playerCombatants.Length)];
+        int targetIndex = Random.Range(0, playerCombatants.Length);
+        Combatant target = playerCombatants[targetIndex];
         enemy.Attack(target);
         EndTurn(enemy);
     }
 
-    private void EndTurn(Combatant combatant)
+    public void EndTurn(BaseCombatant combatant)
     {
-        priorityQueue.PriorityEnqueue(combatant, combatant.GetSpeed());
+        priorityQueue.PriorityEnqueue(combatant, combatant.GetSpeed() -2);
         StartTurn();
     }
 
-    private void EndTurn(EnemyCombatant enemy)
+    private void HideAllUI()
     {
-       // priorityQueue.PriorityEnqueue(enemy, enemy.GetSpeed());
-        StartTurn();
+        for (int i = 0; i < combatantUIs.Length; i++)
+        {
+            combatantUIs[i].Hide();
+        }
     }
 }
