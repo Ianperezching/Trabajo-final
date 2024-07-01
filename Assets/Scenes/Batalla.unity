@@ -1050,7 +1050,6 @@ MonoBehaviour:
   - {fileID: 1649594708}
   enemyCombatants:
   - {fileID: 874513376}
-  - {fileID: 1042035511}
   combatantUIs:
   - {fileID: 1444135896}
   - {fileID: 1044536422}
@@ -6054,13 +6053,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 755764482}
-        m_TargetAssemblyTypeName: Combatant, Assembly-CSharp
+      - m_Target: {fileID: 1044536422}
+        m_TargetAssemblyTypeName: CombatantUI, Assembly-CSharp
         m_MethodName: Heal
-        m_Mode: 2
+        m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 1918242326}
-          m_ObjectArgumentAssemblyTypeName: BaseCombatant, Assembly-CSharp
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

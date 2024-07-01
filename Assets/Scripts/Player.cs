@@ -4,34 +4,57 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
-public class Player : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
-    public float moveSpeed = 5f;
-    public float smoothTime = 0.5f; 
-    private Vector2 moveInput;
-    
+    public float speed = 6f;
+    public float turnSmoothTime = 0.1f;
+    public Transform cam;
+    private Animator anim;
     private Rigidbody rb;
+    private Vector2 moveInput;
+    private float turnSmoothVelocity;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        anim = GetComponent<Animator>();
     }
 
     private void FixedUpdate()
     {
-        Vector3 targetPosition = rb.position + new Vector3(moveInput.x, 0, moveInput.y) * moveSpeed * Time.fixedDeltaTime;
+        if (moveInput.magnitude >= 0.1f)
+        {
+            float horizontal = moveInput.x;
+            float vertical = moveInput.y;
+            Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
 
-        
-        Vector3 smoothedPosition = Vector3.Lerp(rb.position, targetPosition, smoothTime);
+            if (direction.magnitude >= 0.1f)
+            {
+                float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
+                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+                transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
+                Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+                rb.MovePosition(rb.position + moveDir.normalized * speed * Time.fixedDeltaTime);
 
-        rb.MovePosition(smoothedPosition);
+                
+                anim.SetFloat("VelX", horizontal);
+                anim.SetFloat("VelY", vertical);
+            }
+        }
+        else
+        {
+            
+            anim.SetFloat("VelX", 0);
+            anim.SetFloat("VelY", 0);
+        }
     }
 
     public void OnMove(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Enemy"))

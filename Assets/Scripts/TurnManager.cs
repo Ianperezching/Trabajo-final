@@ -75,7 +75,7 @@ public class TurnManager : MonoBehaviour
         }
         else
         {
-            combatant.AddDelay(1000); // Añadir un retraso fijo de 1000 unidades de tiempo
+            combatant.AddDelay(1000);
             priorityQueue.PriorityEnqueue(combatant, combatant.GetSpeedWithDelay());
             StartTurn();
         }

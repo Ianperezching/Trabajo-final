@@ -41,4 +41,26 @@ public class CombatantUI : MonoBehaviour
         combatant.SpecialAttack(enemies);
         turnManager.EndTurn(combatant);
     }
+
+    public void Heal()
+    {
+        Combatant[] allies = turnManager.playerCombatants;
+        if (allies.Length > 0)
+        {
+           
+            combatant.Heal(allies[0]);
+        }
+        turnManager.EndTurn(combatant);
+    }
+
+    public void SpeedBoost()
+    {
+        Combatant[] allies = turnManager.playerCombatants;
+        if (allies.Length > 0)
+        {
+          
+            combatant.SpeedBoost(allies[0]);
+        }
+        turnManager.EndTurn(combatant);
+    }
 }
