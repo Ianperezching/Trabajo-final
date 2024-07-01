@@ -48,4 +48,8 @@ public class UIManager : MonoBehaviour
     {
         SceneManager.LoadScene("Nivel");
     }
+    public void GoMenu()
+    {
+        SceneManager.LoadScene("Menu");
+    }
 }

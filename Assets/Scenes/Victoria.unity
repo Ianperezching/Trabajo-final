@@ -568,9 +568,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Derrota
-
-'
+  m_text: Victoria
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 880b221481d42f44c92c00cf4a9e3f10, type: 2}
   m_sharedMaterial: {fileID: 6205218804386349234, guid: 880b221481d42f44c92c00cf4a9e3f10,
