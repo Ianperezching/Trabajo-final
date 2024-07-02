@@ -74,11 +74,9 @@ public class TurnManager : MonoBehaviour
         }
         else
         {
-            
                 combatant.AddDelay(1000);
                 priorityQueue.PriorityEnqueue(combatant, combatant.GetSpeedWithDelay());
                 StartTurn();
-           
         }
     }
 

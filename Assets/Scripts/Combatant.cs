@@ -39,7 +39,6 @@ public class Combatant : BaseCombatant
          StartCoroutine(TiemAnimation("NormalAtack", true));
          EnemyCombatant enemy = (EnemyCombatant)target;
          enemy.TakeDamage(stats.attack);
-  
     }
 
     public void SpecialAttack(BaseCombatant[] enemies)
@@ -49,16 +48,14 @@ public class Combatant : BaseCombatant
         {     
            EnemyCombatant enemyCombatant = (EnemyCombatant)enemies[i];
             enemyCombatant.TakeDamage(stats.attack);
-            
+            animationController.PlayAnimacion("Dead");
         }
-        
     }
     private IEnumerator TiemAnimation(string Name,bool State)
     {
         animationController.PlayAnimacion(Name, State);
         yield return new WaitForSeconds(2);
         animationController.PlayAnimacion(Name, false);
-        
     }
 
     public void Heal(BaseCombatant target)

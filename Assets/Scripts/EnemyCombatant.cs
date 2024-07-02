@@ -1,10 +1,17 @@
 using UnityEngine;
+using System.Collections;
 
 public class EnemyCombatant : BaseCombatant
 {
     public EnemyStats stats;
     private TurnManager turnManager;
+    private AnimationController animationController;
 
+
+    private void Awake()
+    {
+        animationController = GetComponent<AnimationController>();
+    }
     private void Start()
     {
         stats.currentHealth = stats.health;
@@ -17,10 +24,12 @@ public class EnemyCombatant : BaseCombatant
 
     public void TakeDamage(int damage)
     {
+        TiemAnimation("RecibeDaño 0", true);
         int damageTaken = Mathf.Max(damage - stats.defense, 0);
         stats.currentHealth -= damageTaken;
         if (stats.currentHealth <= 0)
         {
+            
             Debug.Log(stats.enemyName + " has been defeated!");
             Destroy(this);
         }
@@ -28,9 +37,17 @@ public class EnemyCombatant : BaseCombatant
 
     public void Attack(BaseCombatant target)
     {
+        StartCoroutine(TiemAnimation("NormalAtack", true));
+        Combatant combatant = (Combatant)target;
+       combatant.TakeDamage(stats.attack);
 
-            Combatant combatant = (Combatant)target;
-            combatant.TakeDamage(stats.attack);
+    }
+
+    private IEnumerator TiemAnimation(string Name, bool State)
+    {
+        animationController.PlayAnimacion(Name, State);
+        yield return new WaitForSeconds(2);
+        animationController.PlayAnimacion(Name, false);
 
     }
 
@@ -46,6 +63,7 @@ public class EnemyCombatant : BaseCombatant
 
     public override void StartTurn(TurnManager turnManager)
     {
+        animationController.PlayAnimacion("Idle", true);
         turnManager.ExecuteEnemyTurn(this);
     }
 }
