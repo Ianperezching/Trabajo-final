@@ -31,12 +31,11 @@ public class TurnManager : MonoBehaviour
 
     private void StartTurn()
     {
-        if (!priorityQueue.IsEmpty())
-        {
+       
             BaseCombatant currentCombatant = priorityQueue.PriorityDequeue();
             Debug.Log("It's " + currentCombatant.GetName() + "'s turn!");
             currentCombatant.StartTurn(this);
-        }
+      
     }
 
     public void ShowPlayerOptions(Combatant player)
@@ -75,9 +74,11 @@ public class TurnManager : MonoBehaviour
         }
         else
         {
-            combatant.AddDelay(1000);
-            priorityQueue.PriorityEnqueue(combatant, combatant.GetSpeedWithDelay());
-            StartTurn();
+            
+                combatant.AddDelay(1000);
+                priorityQueue.PriorityEnqueue(combatant, combatant.GetSpeedWithDelay());
+                StartTurn();
+           
         }
     }
 

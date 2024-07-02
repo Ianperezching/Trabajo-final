@@ -22,16 +22,16 @@ public class EnemyCombatant : BaseCombatant
         if (stats.currentHealth <= 0)
         {
             Debug.Log(stats.enemyName + " has been defeated!");
+            Destroy(this);
         }
     }
 
     public void Attack(BaseCombatant target)
     {
-        if (target is Combatant)
-        {
+
             Combatant combatant = (Combatant)target;
             combatant.TakeDamage(stats.attack);
-        }
+
     }
 
     public override int GetSpeed()

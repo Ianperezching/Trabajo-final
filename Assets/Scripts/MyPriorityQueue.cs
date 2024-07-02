@@ -85,14 +85,4 @@ public class MyPriorityQueue<T>
         length--;
         return dequeued.Value;
     }
-
-    public bool IsEmpty()
-    {
-        return length == 0;
-    }
-
-    public int GetLength()
-    {
-        return length;
-    }
 }

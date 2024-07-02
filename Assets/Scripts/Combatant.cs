@@ -1,13 +1,20 @@
 using UnityEngine;
-
+using System.Collections;
 public class Combatant : BaseCombatant
 {
+
     public CharacterStats stats;
     private TurnManager turnManager;
+    private AnimationController animationController;
 
+    private void Awake()
+    {
+        animationController = GetComponent<AnimationController>();
+    }
     private void Start()
     {
         stats.currentHealth = stats.health;
+        
     }
 
     public void SetTurnManager(TurnManager manager)
@@ -17,8 +24,10 @@ public class Combatant : BaseCombatant
 
     public void TakeDamage(int damage)
     {
+        TiemAnimation("RecibeDaño 0", true);
         int damageTaken = Mathf.Max(damage - stats.defense, 0);
         stats.currentHealth -= damageTaken;
+        
         if (stats.currentHealth <= 0)
         {
             Debug.Log(stats.characterName + " has been defeated!");
@@ -27,48 +36,45 @@ public class Combatant : BaseCombatant
 
     public void Attack(BaseCombatant target)
     {
-        if (target is Combatant)
-        {
-            Combatant combatant = (Combatant)target;
-            combatant.TakeDamage(stats.attack);
-        }
-        else if (target is EnemyCombatant)
-        {
-            EnemyCombatant enemy = (EnemyCombatant)target;
-            enemy.TakeDamage(stats.attack);
-        }
+         StartCoroutine(TiemAnimation("NormalAtack", true));
+         EnemyCombatant enemy = (EnemyCombatant)target;
+         enemy.TakeDamage(stats.attack);
+  
     }
 
     public void SpecialAttack(BaseCombatant[] enemies)
     {
+        StartCoroutine(TiemAnimation("SpecialAttack 0", true));
         for (int i = 0; i < enemies.Length; i++)
-        {
-            if (enemies[i] is EnemyCombatant)
-            {
-                EnemyCombatant enemyCombatant = (EnemyCombatant)enemies[i];
-                enemyCombatant.TakeDamage(stats.attack);
-            }
+        {     
+           EnemyCombatant enemyCombatant = (EnemyCombatant)enemies[i];
+            enemyCombatant.TakeDamage(stats.attack);
+            
         }
+        
+    }
+    private IEnumerator TiemAnimation(string Name,bool State)
+    {
+        animationController.PlayAnimacion(Name, State);
+        yield return new WaitForSeconds(2);
+        animationController.PlayAnimacion(Name, false);
+        
     }
 
     public void Heal(BaseCombatant target)
-    {
-        if (target is Combatant)
-        {
-            Combatant combatant = (Combatant)target;
-            combatant.stats.currentHealth = Mathf.Min(combatant.stats.health, combatant.stats.currentHealth + stats.attack);
-            Debug.Log(stats.characterName + " healed " + combatant.stats.characterName);
-        }
+    { 
+        animationController.PlayAnimacion("SpecialAttack 0", true);
+        Combatant combatant = (Combatant)target;
+        combatant.stats.currentHealth = Mathf.Min(combatant.stats.health, combatant.stats.currentHealth + stats.attack);
+        Debug.Log(stats.characterName + " healed " + combatant.stats.characterName); 
     }
 
     public void SpeedBoost(BaseCombatant target)
-    {
-        if (target is Combatant)
-        {
-            Combatant combatant = (Combatant)target;
-            combatant.stats.speed += stats.attack;
-            Debug.Log(stats.characterName + " boosted speed of " + combatant.stats.characterName);
-        }
+    {  
+        animationController.PlayAnimacion("SpecialAttack 0", true);
+        Combatant combatant = (Combatant)target;
+        combatant.stats.speed += stats.attack;
+        Debug.Log(stats.characterName + " boosted speed of " + combatant.stats.characterName);  
     }
 
     public override int GetSpeed()
@@ -83,6 +89,7 @@ public class Combatant : BaseCombatant
 
     public override void StartTurn(TurnManager turnManager)
     {
+        animationController.PlayAnimacion("Idle", true);
         turnManager.ShowPlayerOptions(this);
     }
 }
