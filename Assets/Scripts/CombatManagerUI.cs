@@ -53,7 +53,7 @@ public class CombatantUI : MonoBehaviour
             allies[i].UpdateHealthBar();
         }
         turnManager.EndTurn(combatant);
-    }
+    }//tiempo asintotico O(N)
 
     public void SpeedBoost()
     {

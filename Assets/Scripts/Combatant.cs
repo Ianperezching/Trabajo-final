@@ -61,7 +61,7 @@ public class Combatant : BaseCombatant
            EnemyCombatant enemyCombatant = (EnemyCombatant)enemies[i];
             enemyCombatant.TakeDamage(stats.attack);
             animationController.PlayAnimacion("Dead");
-        }
+        }//tiempo asintotico 0(n)
     }
     private IEnumerator TiemAnimation(string Name,bool State)
     {
@@ -106,5 +106,5 @@ public class Combatant : BaseCombatant
     {
         animationController.PlayAnimacion("Idle", true);
         turnManager.ShowPlayerOptions(this);
-    }
+    }//tiempo asintotico 0(log n)
 }

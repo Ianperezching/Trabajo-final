@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class EnemyCombatant : BaseCombatant
 {
-    public Slider healthSlider; // Referencia a la barra de vida
+    public Slider healthSlider; 
     public EnemyStats stats;
     private TurnManager turnManager;
     private AnimationController animationController;
@@ -17,7 +17,7 @@ public class EnemyCombatant : BaseCombatant
     private void Start()
     {
         stats.currentHealth = stats.health;
-        UpdateHealthBar(); // Inicializar la barra de vida al inicio
+        UpdateHealthBar(); 
     }
 
     public void SetTurnManager(TurnManager manager)
@@ -35,20 +35,20 @@ public class EnemyCombatant : BaseCombatant
             stats.currentHealth = 0;
             UpdateHealthBar();
             Debug.Log(stats.enemyName + " has been defeated!");
-            Destroy(this.gameObject); // Destruir el objeto enemigo cuando sea derrotado
+            Destroy(this.gameObject); 
         }
         else
         {
             UpdateHealthBar();
         }
-    }
+    }//tiempo asintotico 0(1)
 
     public void Attack(BaseCombatant target)
     {
         StartCoroutine(TiemAnimation("NormalAtack", true));
         Combatant combatant = (Combatant)target;
         combatant.TakeDamage(stats.attack);
-    }
+    }//tiempo asintotico 0(1)
 
     private IEnumerator TiemAnimation(string Name, bool State)
     {

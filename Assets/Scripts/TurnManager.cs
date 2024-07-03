@@ -83,7 +83,7 @@ public class TurnManager : MonoBehaviour
             combatant.AddDelay(1000);
             priorityQueue.PriorityEnqueue(combatant, combatant.GetSpeedWithDelay());
             StartTurn();
-        }
+        }//tiempo asintotico 0(log n)
     }
 
     private bool CheckVictory()
