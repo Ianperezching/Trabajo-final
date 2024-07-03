@@ -7,6 +7,9 @@ TagManager:
   - Enemy
   - Suelo
   - Boss
+  - Enemy 2
+  - Enemy 3
+  - Enemy 4
   layers:
   - Default
   - TransparentFX

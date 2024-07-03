@@ -60,6 +60,18 @@ public class PlayerMovement : MonoBehaviour
         if (other.CompareTag("Enemy"))
         {
             SceneManager.LoadScene("Batalla");
+
+        }else if (other.CompareTag("Enemy 2"))
+        {
+            SceneManager.LoadScene("Batalla");
+        }
+        else if (other.CompareTag("Enemy 3"))
+        {
+            SceneManager.LoadScene("Batalla");
+        }
+        else if (other.CompareTag("Enemy 4"))
+        {
+            SceneManager.LoadScene("Batalla");
         }
     }
 }

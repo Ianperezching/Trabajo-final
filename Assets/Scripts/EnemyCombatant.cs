@@ -1,20 +1,23 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class EnemyCombatant : BaseCombatant
 {
+    public Slider healthSlider; // Referencia a la barra de vida
     public EnemyStats stats;
     private TurnManager turnManager;
     private AnimationController animationController;
-
 
     private void Awake()
     {
         animationController = GetComponent<AnimationController>();
     }
+
     private void Start()
     {
         stats.currentHealth = stats.health;
+        UpdateHealthBar(); // Inicializar la barra de vida al inicio
     }
 
     public void SetTurnManager(TurnManager manager)
@@ -24,14 +27,19 @@ public class EnemyCombatant : BaseCombatant
 
     public void TakeDamage(int damage)
     {
-        TiemAnimation("RecibeDaño 0", true);
+        StartCoroutine(TiemAnimation("RecibeDaño 0", true));
         int damageTaken = Mathf.Max(damage - stats.defense, 0);
         stats.currentHealth -= damageTaken;
         if (stats.currentHealth <= 0)
         {
-            
+            stats.currentHealth = 0;
+            UpdateHealthBar();
             Debug.Log(stats.enemyName + " has been defeated!");
-            Destroy(this);
+            Destroy(this.gameObject); // Destruir el objeto enemigo cuando sea derrotado
+        }
+        else
+        {
+            UpdateHealthBar();
         }
     }
 
@@ -39,8 +47,7 @@ public class EnemyCombatant : BaseCombatant
     {
         StartCoroutine(TiemAnimation("NormalAtack", true));
         Combatant combatant = (Combatant)target;
-       combatant.TakeDamage(stats.attack);
-
+        combatant.TakeDamage(stats.attack);
     }
 
     private IEnumerator TiemAnimation(string Name, bool State)
@@ -48,7 +55,14 @@ public class EnemyCombatant : BaseCombatant
         animationController.PlayAnimacion(Name, State);
         yield return new WaitForSeconds(2);
         animationController.PlayAnimacion(Name, false);
+    }
 
+    public void UpdateHealthBar()
+    {
+        if (healthSlider != null)
+        {
+            healthSlider.value = (float)stats.currentHealth / stats.health;
+        }
     }
 
     public override int GetSpeed()

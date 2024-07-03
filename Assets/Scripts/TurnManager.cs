@@ -31,11 +31,9 @@ public class TurnManager : MonoBehaviour
 
     private void StartTurn()
     {
-       
-            BaseCombatant currentCombatant = priorityQueue.PriorityDequeue();
-            Debug.Log("It's " + currentCombatant.GetName() + "'s turn!");
-            currentCombatant.StartTurn(this);
-      
+        BaseCombatant currentCombatant = priorityQueue.PriorityDequeue();
+        Debug.Log("It's " + currentCombatant.GetName() + "'s turn!");
+        currentCombatant.StartTurn(this);
     }
 
     public void ShowPlayerOptions(Combatant player)
@@ -64,6 +62,14 @@ public class TurnManager : MonoBehaviour
 
     public void EndTurn(BaseCombatant combatant)
     {
+        
+        if (AnyPlayerDead())
+        {
+            SceneManager.LoadScene("Derrota");
+            return;
+        }
+
+       
         if (CheckVictory())
         {
             SceneManager.LoadScene("Nivel");
@@ -74,9 +80,9 @@ public class TurnManager : MonoBehaviour
         }
         else
         {
-                combatant.AddDelay(1000);
-                priorityQueue.PriorityEnqueue(combatant, combatant.GetSpeedWithDelay());
-                StartTurn();
+            combatant.AddDelay(1000);
+            priorityQueue.PriorityEnqueue(combatant, combatant.GetSpeedWithDelay());
+            StartTurn();
         }
     }
 
@@ -102,6 +108,18 @@ public class TurnManager : MonoBehaviour
             }
         }
         return true;
+    }
+
+    private bool AnyPlayerDead()
+    {
+        for (int i = 0; i < playerCombatants.Length; i++)
+        {
+            if (playerCombatants[i].stats.currentHealth <= 0)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void HideAllUI()

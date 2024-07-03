@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyName: Enemigo 1
   health: 300
-  attack: 10
+  attack: 40
   defense: 5
   speed: 42
-  currentHealth: 200
+  currentHealth: 300

@@ -1,8 +1,9 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 public class Combatant : BaseCombatant
 {
-
+    public Slider healthSlider;
     public CharacterStats stats;
     private TurnManager turnManager;
     private AnimationController animationController;
@@ -14,9 +15,12 @@ public class Combatant : BaseCombatant
     private void Start()
     {
         stats.currentHealth = stats.health;
-        
+        UpdateHealthBar();
     }
-
+    public void UpdateHealthBar()
+    {
+        healthSlider.value = (float)stats.currentHealth / stats.health;
+    }
     public void SetTurnManager(TurnManager manager)
     {
         turnManager = manager;
@@ -24,13 +28,18 @@ public class Combatant : BaseCombatant
 
     public void TakeDamage(int damage)
     {
-        TiemAnimation("RecibeDaño 0", true);
+        StartCoroutine(TiemAnimation("RecibeDaño 0", true));
         int damageTaken = Mathf.Max(damage - stats.defense, 0);
         stats.currentHealth -= damageTaken;
         
         if (stats.currentHealth <= 0)
         {
+            UpdateHealthBar();
             Debug.Log(stats.characterName + " has been defeated!");
+        }
+        else
+        {
+            UpdateHealthBar();
         }
     }
 

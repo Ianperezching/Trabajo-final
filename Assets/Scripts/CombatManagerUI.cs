@@ -1,9 +1,11 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CombatantUI : MonoBehaviour
 {
     private TurnManager turnManager;
     private Combatant combatant;
+    public Slider healthSlider;
 
     public void Initialize(TurnManager manager, Combatant combatant)
     {
@@ -45,10 +47,10 @@ public class CombatantUI : MonoBehaviour
     public void Heal()
     {
         Combatant[] allies = turnManager.playerCombatants;
-        if (allies.Length > 0)
+        for (int i = 0; i < allies.Length; i++)
         {
-           
-            combatant.Heal(allies[0]);
+            combatant.Heal(allies[i]);
+            allies[i].UpdateHealthBar();
         }
         turnManager.EndTurn(combatant);
     }
@@ -58,7 +60,6 @@ public class CombatantUI : MonoBehaviour
         Combatant[] allies = turnManager.playerCombatants;
         if (allies.Length > 0)
         {
-          
             combatant.SpeedBoost(allies[0]);
         }
         turnManager.EndTurn(combatant);
