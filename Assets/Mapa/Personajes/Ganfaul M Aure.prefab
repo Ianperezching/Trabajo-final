@@ -1,0 +1,123 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &270138925285862695
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 6cd05611057355342bd403e0b7832898,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.9811
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6cd05611057355342bd403e0b7832898,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.9811
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6cd05611057355342bd403e0b7832898,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.9811
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6cd05611057355342bd403e0b7832898,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -29.851482
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6cd05611057355342bd403e0b7832898,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.06
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6cd05611057355342bd403e0b7832898,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 457.30072
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6cd05611057355342bd403e0b7832898,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.0009698984
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6cd05611057355342bd403e0b7832898,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6cd05611057355342bd403e0b7832898,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.9999996
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6cd05611057355342bd403e0b7832898,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6cd05611057355342bd403e0b7832898,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6cd05611057355342bd403e0b7832898,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 179.889
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6cd05611057355342bd403e0b7832898,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6cd05611057355342bd403e0b7832898,
+        type: 3}
+      propertyPath: m_Name
+      value: Ganfaul M Aure
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6cd05611057355342bd403e0b7832898,
+        type: 3}
+      propertyPath: m_TagString
+      value: Boss
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6cd05611057355342bd403e0b7832898,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4469132149295260946}
+  m_SourcePrefab: {fileID: 100100000, guid: 6cd05611057355342bd403e0b7832898, type: 3}
+--- !u!1 &1116558706195452022 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 6cd05611057355342bd403e0b7832898,
+    type: 3}
+  m_PrefabInstance: {fileID: 270138925285862695}
+  m_PrefabAsset: {fileID: 0}
+--- !u!136 &4469132149295260946
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1116558706195452022}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2.52
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.09, z: 0}

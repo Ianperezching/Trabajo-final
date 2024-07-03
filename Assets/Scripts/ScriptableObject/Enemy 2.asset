@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Enemy 2
   m_EditorClassIdentifier: 
   enemyName: Enemigo 2
-  health: 100
-  attack: 2
-  defense: 4
+  health: 400
+  attack: 50
+  defense: 6
   speed: 44
-  currentHealth: 100
+  currentHealth: 1

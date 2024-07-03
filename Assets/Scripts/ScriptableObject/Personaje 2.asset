@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Personaje 2
   m_EditorClassIdentifier: 
   characterName: Personaje 2
-  health: 40
-  attack: 100
+  health: 150
+  attack: 40
   defense: 5
   speed: 43
-  currentHealth: 40
+  currentHealth: 105

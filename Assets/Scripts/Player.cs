@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     public float speed = 6f;
     public float turnSmoothTime = 0.1f;
     public Transform cam;
+    public PlayerPositionData playerPositionData; 
     private Animator anim;
     private Rigidbody rb;
     private Vector2 moveInput;
@@ -18,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
+        LoadPosition(); 
     }
 
     private void FixedUpdate()
@@ -37,14 +39,12 @@ public class PlayerMovement : MonoBehaviour
                 Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
                 rb.MovePosition(rb.position + moveDir.normalized * speed * Time.fixedDeltaTime);
 
-                
                 anim.SetFloat("VelX", horizontal);
                 anim.SetFloat("VelY", vertical);
             }
         }
         else
         {
-            
             anim.SetFloat("VelX", 0);
             anim.SetFloat("VelY", 0);
         }
@@ -59,19 +59,36 @@ public class PlayerMovement : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
+            SavePosition();
             SceneManager.LoadScene("Batalla");
-
-        }else if (other.CompareTag("Enemy 2"))
+        }
+        else if (other.CompareTag("Enemy 2"))
         {
-            SceneManager.LoadScene("Batalla");
+            SavePosition();
+            SceneManager.LoadScene("Batalla 2");
         }
         else if (other.CompareTag("Enemy 3"))
         {
-            SceneManager.LoadScene("Batalla");
+            SavePosition();
+            SceneManager.LoadScene("Batalla 3");
         }
-        else if (other.CompareTag("Enemy 4"))
+        else if (other.CompareTag("Boss"))
         {
-            SceneManager.LoadScene("Batalla");
+            SavePosition();
+            SceneManager.LoadScene("Boss");
+        }
+    }
+
+    private void SavePosition()
+    {
+        playerPositionData.position = transform.position - new Vector3(0, 0, 10);
+    }
+
+    private void LoadPosition()
+    {
+        if (playerPositionData != null)
+        {
+            transform.position = playerPositionData.position;
         }
     }
 }

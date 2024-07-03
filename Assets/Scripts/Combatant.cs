@@ -7,10 +7,12 @@ public class Combatant : BaseCombatant
     public CharacterStats stats;
     private TurnManager turnManager;
     private AnimationController animationController;
+    private AudioSource audioSource;
 
     private void Awake()
     {
         animationController = GetComponent<AnimationController>();
+        audioSource = GetComponent<AudioSource>();
     }
     private void Start()
     {
@@ -48,6 +50,7 @@ public class Combatant : BaseCombatant
          StartCoroutine(TiemAnimation("NormalAtack", true));
          EnemyCombatant enemy = (EnemyCombatant)target;
          enemy.TakeDamage(stats.attack);
+        PlayAttackSound();
     }
 
     public void SpecialAttack(BaseCombatant[] enemies)
@@ -82,7 +85,13 @@ public class Combatant : BaseCombatant
         combatant.stats.speed += stats.attack;
         Debug.Log(stats.characterName + " boosted speed of " + combatant.stats.characterName);  
     }
-
+    private void PlayAttackSound()
+    {
+        if (audioSource != null && audioSource.clip != null)
+        {
+            audioSource.Play();
+        }
+    }
     public override int GetSpeed()
     {
         return stats.speed;
